@@ -118,10 +118,6 @@
       const totalWorldPopulation = 7794798739;
 
       socket.on('sent data', function(data) {
-        infectedText.text(data[0]);
-        recoveredText.text(data[1]);
-        deathsText.text(data[2]);
-
         const strNum1 = data[0].replace(',', '');
         const strNum2 = data[1].replace(',', '');
         const strNum3 = data[2].replace(',', '');
@@ -134,13 +130,17 @@
         const percent2 = numPer(int2, totalWorldPopulation);
         const percent3 = numPer(int3, totalWorldPopulation);
 
+        infectedText.text(data[0] + ' (' + percent1 + '%)');
+        recoveredText.text(data[1] + ' (' + percent2 + '%)');
+        deathsText.text(data[2] + ' (' + percent3 + '%)');
+
         div1.style.transform = `scaleY(${percent1})`;
         div2.style.transform = `scaleY(${percent2})`;
         div3.style.transform = `scaleY(${percent3})`;
       });
 
       function numPer(v1, v2) {
-        return ((v1 / v2) * 100).toFixed(3);
+        return ((v1 / v2) * 100).toFixed(4);
       }
 
       // divs[1].addEventListener('change', () => {

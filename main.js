@@ -21,7 +21,6 @@ function getDataAll() {
       infected = n[1];
       dead = n[3];
       recovered = n[5];
-      console.log('pinged');
       io.emit('sent data', [infected, recovered, dead]);
     }
   });
@@ -36,14 +35,13 @@ function getDataSingle(socket) {
       infected = n[1];
       dead = n[3];
       recovered = n[5];
-      console.log('pinged');
       socket.emit('sent data', [infected, recovered, dead]);
     }
   });
 }
 
 io.on('connection', function (socket) {
-  console.log('connected');
+  //console.log('connected');
   getDataSingle(socket);
 });
 
