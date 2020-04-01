@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>covid progress</title>
+
+    <meta charset="utf-8" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script src="https://use.fontawesome.com/375fea9f2f.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <style type="text/css">
+      body {
+        background-color: #f0f0f2;
+        margin: 0;
+        padding: 0;
+        font-family: -apple-system, system-ui, BlinkMacSystemFont, 'Segoe UI',
+          'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      }
+
+      .all-prog {
+        width: 20vw;
+        height: 80vh;
+        position: absolute;
+        left: 40vw;
+        top: 10vh;
+        transform-origin: 0 100%;
+        transition: transform 2000ms ease-in-out;
+        transform: scaleY(0);
+      }
+
+      h4,
+      p {
+        margin: 0;
+        padding: 0;
+      }
+
+      #results {
+        right: 25vw;
+        bottom: 40vh;
+        position: absolute;
+      }
+
+      #progress {
+        background-color: lightgray;
+        transform: scaleX(1);
+      }
+      #infected {
+        background-color: rgb(202, 83, 223);
+      }
+      #terminal {
+        background-color: rgb(236, 55, 55);
+      }
+      #recovered {
+        background-color: rgb(24, 196, 156);
+      }
+
+      #totalPop {
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      @media (max-width: 700px) {
+        div {
+          margin: 0 auto;
+          width: auto;
+        }
+        #results {
+          right: 9vw;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="results">
+      <p>
+        <i class="fa fa-square" style="color:rgb(202, 83, 223)"></i>
+        Infected
+      </p>
+      <h4 class="infected"></h4>
+
+      <p>
+        <i class="fa fa-square" style="color:rgb(24, 196, 156)"></i>
+        Recovered
+      </p>
+      <h4 class="recovered"></h4>
+
+      <p>
+        <i class="fa fa-square" style="color: rgb(236, 55, 55)"></i>
+        Deaths
+      </p>
+      <h4 class="deaths"></h4>
+    </div>
+    <!-- <h3 id="totalPop" style="text-align: center;"></h3> -->
+    <p id="totalPop">
+      <i class="fa fa-square" style="color: lightgray"></i>
+      World Population <b>7,794,798,739</b>
+    </p>
+    <div class="all-prog" id="progress"></div>
+    <div class="all-prog" id="infected"></div>
+    <div class="all-prog" id="recovered"></div>
+    <div class="all-prog" id="terminal"></div>
+
+    <script>
+      const infectedText = $('.infected');
+      // infectedText.text('Infected : 0');
+      const recoveredText = $('.recovered');
+      // recoveredText.text('Recovered : 0');
+      const deathsText = $('.deaths');
+      // deathsText.text('Deaths : 0');
+      const div1 = document.querySelector('#infected');
+      const div2 = document.querySelector('#recovered');
+      const div3 = document.querySelector('#terminal');
+
+      const socket = io();
+
+      const totalWorldPopulation = 7794798739;
+
+      socket.on('sent data', function(data) {
+        infectedText.text(data[0]);
+        recoveredText.text(data[1]);
+        deathsText.text(data[2]);
+
+        const strNum1 = data[0].replace(',', '');
+        const strNum2 = data[1].replace(',', '');
+        const strNum3 = data[2].replace(',', '');
+
+        const int1 = parseInt(strNum1);
+        const int2 = parseInt(strNum2);
+        const int3 = parseInt(strNum3);
+
+        const percent1 = numPer(int1, totalWorldPopulation);
+        const percent2 = numPer(int2, totalWorldPopulation);
+        const percent3 = numPer(int3, totalWorldPopulation);
+
+        div1.style.transform = `scaleY(${percent1})`;
+        div2.style.transform = `scaleY(${percent2})`;
+        div3.style.transform = `scaleY(${percent3})`;
+      });
+
+      function numPer(v1, v2) {
+        return ((v1 / v2) * 100).toFixed(3);
+      }
+
+      // divs[1].addEventListener('change', () => {
+      //   divs[1].style.transform = `scaleY(0.1)`;
+      // });
+
+      // divs[2].addEventListener('change', () => {
+      //   divs[2].style.transform = `scaleY(0.2)`;
+      // });
+      // divs[3].addEventListener('change', () => {
+      //   divs[3].style.transform = `scaleY(0.3)`;
+      // });
+    </script>
+  </body>
+</html>
