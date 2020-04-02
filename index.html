@@ -129,9 +129,9 @@
       const totalWorldPopulation = 7794798739;
 
       socket.on('sent data', function(data) {
-        const strNum1 = data[0].replace(',', '');
-        const strNum2 = data[1].replace(',', '');
-        const strNum3 = data[2].replace(',', '');
+        const strNum1 = data[0].replace(/,/g, '');
+        const strNum2 = data[1].replace(/,/g, '');
+        const strNum3 = data[2].replace(/,/g, '');
 
         const int1 = parseInt(strNum1);
         const int2 = parseInt(strNum2);
