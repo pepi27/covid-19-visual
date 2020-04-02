@@ -43,7 +43,7 @@
 
       #progress {
         background-color: lightgray;
-        transform: scaleX(1);
+        transform: scaleY(1);
       }
       #infected {
         background-color: rgb(202, 83, 223);
@@ -145,13 +145,25 @@
         recoveredText.text(data[1] + ' (' + percent2 + '%)');
         deathsText.text(data[2] + ' (' + percent3 + '%)');
 
-        div1.style.transform = `scaleY(${percent1})`;
-        div2.style.transform = `scaleY(${percent2})`;
-        div3.style.transform = `scaleY(${percent3})`;
+        const scale1 = scaleCalc(int1, totalWorldPopulation);
+        const scale2 = scaleCalc(int2, totalWorldPopulation);
+        const scale3 = scaleCalc(int3, totalWorldPopulation);
+
+        scale1String = 'scaleY(' + scale1 + ')';
+        scale2String = 'scaleY(' + scale2 + ')';
+        scale3String = 'scaleY(' + scale3 + ')';
+
+        div1.style.transform = scale1String;
+        div2.style.transform = scale2String;
+        div3.style.transform = scale3String;
       });
 
       function numPer(v1, v2) {
         return ((v1 / v2) * 100).toFixed(4);
+      }
+
+      function scaleCalc(v1, v2) {
+        return (v1 / v2).toFixed(6);
       }
 
       // divs[1].addEventListener('change', () => {
