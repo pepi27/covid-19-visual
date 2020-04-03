@@ -102,6 +102,11 @@
         Deaths
       </p>
       <h4 class="deaths"></h4>
+
+      <i class="fa fa-square" style="color: rgb(38, 38, 42)"></i>
+      Current mortality percentage
+    </p>
+    <h4 class="mortality-per"></h4>
     </div>
     <!-- <h3 id="totalPop" style="text-align: center;"></h3> -->
     <p id="totalPop">
@@ -120,6 +125,9 @@
       // recoveredText.text('Recovered : 0');
       const deathsText = $('.deaths');
       // deathsText.text('Deaths : 0');
+
+      const mortalityRateText = $('.mortality-per');
+
       const div1 = document.querySelector('#infected');
       const div2 = document.querySelector('#recovered');
       const div3 = document.querySelector('#terminal');
@@ -140,10 +148,14 @@
         const percent1 = numPer(int1, totalWorldPopulation);
         const percent2 = numPer(int2, totalWorldPopulation);
         const percent3 = numPer(int3, totalWorldPopulation);
+        const mortalityPercentage = numPer(int3, int1);
 
         infectedText.text(data[0] + ' (' + percent1 + '%)');
         recoveredText.text(data[1] + ' (' + percent2 + '%)');
         deathsText.text(data[2] + ' (' + percent3 + '%)');
+        deathsText.text(data[2] + ' (' + percent3 + '%)');
+        mortalityRateText.text(mortalityPercentage + " %");
+
 
         const scale1 = scaleCalc(int1, totalWorldPopulation);
         const scale2 = scaleCalc(int2, totalWorldPopulation);
